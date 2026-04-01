@@ -21,10 +21,6 @@ export const App = () => {
 
   useEffect(() => {
 
-    if (aValue === '' || bValue === '' || cValue === '' || dValue === '') {
-      return;
-    }
-
     const eps = 1e-12;
     let newResults = { r1: '', r2: '', r3: '', discriminant: '', pValue: '', qValue: '' }
 
@@ -111,6 +107,7 @@ export const App = () => {
             newResults.r2 = `Root 2 = ${-shift.toFixed(6)}`;
             newResults.r3 = `Root 3 = ${-shift.toFixed(6)}`;
             roots.push(-shift)
+            console.log(-shift)
           } else {
             const singleRoot = u + v - shift;
             const doubleRoot = n - shift;
@@ -125,103 +122,36 @@ export const App = () => {
   }, [aValue, bValue, cValue, dValue]);
 
   return (
-    <div>
-      <CubicInput
-        a={a}
-        b={b}
-        c={c}
-        d={d}
-        setA={setA}
-        setB={setB}
-        setC={setC}
-        setD={setD}
-      />
-      <CubicGraph a={a} b={b} c={c} d={d} roots={roots} />
-      <CubicTable 
-      results = {results}
-      setResults = {setResults}
-      />
-      <div className="min-h-screen bg-[#f4f7f6] p-5 flex flex-col items-center font-sans text-[#333]">
-        <h1 className="text-2xl font-bold my-1 text-center">Cubic Solver</h1>
-        <h5 className="text-base font-normal text-[#666] max-w-[600px] mb-5 text-center leading-tight">
-          Welcome to a cubic solver, you will probably find many more that may or may not be much better than this one. Please waste your time here.
-        </h5>
+    <div className="min-h-screen bg-[#f4f7f6] p-5 flex flex-col items-center font-sans text-[#333]">
+      <div className="flex flex-col md:flex-row items-start gap-8 bg-white p-[30px] rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.1)] w-fit mx-auto my-5">
 
-        <div className="flex flex-col md:flex-row items-start gap-8 bg-white p-[30px] rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.1)] w-fit mx-auto my-5">
+        <div className="flex flex-col min-w-[250px]">
+          <form className="flex flex-col">
 
-          <div className="flex flex-col min-w-[250px]">
-            <form className="flex flex-col">
-
-              <div className="flex flex-col border-b-2 border-gray-100 pb-5 mb-5">
-                <label className="text-[0.9rem] font-bold mb-1 text-[#555]">a-value:</label>
-                <input
-                  type="number"
-                  step="any"
-                  value={aValue}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setA(val === '' ? '' : Number(val))
-                  }}
-                  required
-                  className="p-2 mb-4 border border-gray-300 rounded text-base focus:ring-2 focus:ring-blue-400 outline-none"
+            <div className="flex flex-col gap-3 mb-5">
+              <form className="flex flex-col">
+                <CubicInput
+                  a={a}
+                  b={b}
+                  c={c}
+                  d={d}
+                  setA={setA}
+                  setB={setB}
+                  setC={setC}
+                  setD={setD}
                 />
-
-                <label className="text-[0.9rem] font-bold mb-1 text-[#555]">b-value:</label>
-                <input
-                  type="number"
-                  step="any"
-                  value={bValue}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setB(val === '' ? '' : Number(val))
-                  }}
-                  required
-                  className="p-2 mb-4 border border-gray-300 rounded text-base focus:ring-2 focus:ring-blue-400 outline-none"
+                <CubicTable
+                  r1={results.r1}
+                  r2={results.r2}
+                  r3={results.r3}
+                  discriminant={results.discriminant}
+                  pValue={results.pValue}
+                  qValue={results.qValue}
                 />
-
-                <label className="text-[0.9rem] font-bold mb-1 text-[#555]">c-value:</label>
-                <input
-                  type="number"
-                  step="any"
-                  value={cValue}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setC(val === '' ? '' : Number(val))
-                  }}
-                  required
-                  className="p-2 mb-4 border border-gray-300 rounded text-base focus:ring-2 focus:ring-blue-400 outline-none"
-                />
-
-                <label className="text-[0.9rem] font-bold mb-1 text-[#555]">d-value:</label>
-                <input
-                  type="number"
-                  step="any"
-                  value={dValue}
-                  onChange={(e) => {
-                    const val = e.target.value;
-                    setD(val === '' ? '' : Number(val))
-                  }}
-                  required
-                  className="p-2 mb-4 border border-gray-300 rounded text-base focus:ring-2 focus:ring-blue-400 outline-none"
-                />
-              </div>
-
-              {/* <div className="flex flex-col gap-3 mb-5">
-              <input value={results.r1} type="text" placeholder="Result 1" readOnly className="p-2 bg-[#f9f9f9] text-[#2c3e50] border border-[#e0e0e0] rounded" />
-              <input value={results.r2} type="text" placeholder="Result 2" readOnly className="p-2 bg-[#f9f9f9] text-[#2c3e50] border border-[#e0e0e0] rounded" />
-              <input value={results.r3} type="text" placeholder="Result 3" readOnly className="p-2 bg-[#f9f9f9] text-[#2c3e50] border border-[#e0e0e0] rounded" />
-              <input value={results.discriminant} type="text" placeholder="Discriminant" readOnly className="p-2 bg-[#f9f9f9] text-[#2c3e50] border border-[#e0e0e0] rounded" />
-              <input value={results.pValue} type="text" placeholder="P Value" readOnly className="p-2 bg-[#f9f9f9] text-[#2c3e50] border border-[#e0e0e0] rounded" />
-              <input value={results.qValue} type="text" placeholder="Q Value" readOnly className="p-2 bg-[#f9f9f9] text-[#2c3e50] border border-[#e0e0e0] rounded" />
-            </div> */}
-
-              {/* <input
-              type="submit"
-              value="Save"
-              className="bg-[#3498db] hover:bg-[#2980b9] text-white font-bold p-3 rounded cursor-pointer transition-colors duration-300"
-            /> */}
-            </form>
-          </div>
+              </form>
+              <CubicGraph a={a} b={b} c={c} d={d} roots={roots} />
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -82,7 +82,7 @@ export const CubicGraph = ({ a, b, c, d, roots }: GraphProps) => {
             ctx.arc(px, py, 5, 0, 2 * Math.PI);
             ctx.fill();
         }
-    }, [a, b, c, d, roots]); // Re-run when any of these change
+    }, [a, b, c, d, roots]);
 
     return (
         <canvas width="700" height="700"></canvas>
