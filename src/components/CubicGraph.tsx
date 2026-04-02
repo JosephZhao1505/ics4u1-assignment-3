@@ -15,13 +15,17 @@ export const CubicGraph = ({ a, b, c, d, roots }: GraphProps) => {
         const canvas = canvasRef.current;
 
         if (!canvas) {
-            return;
+            return(
+                console.log("!canvas")
+            );
         };
 
         const ctx = canvas.getContext("2d");
 
         if (!ctx) {
-            return;
+            return(
+                console.log("!ctx")
+            );
         }
 
         const width = canvas.width;
@@ -85,6 +89,6 @@ export const CubicGraph = ({ a, b, c, d, roots }: GraphProps) => {
     }, [a, b, c, d, roots]);
 
     return (
-        <canvas width="700" height="700"></canvas>
+        <canvas ref={canvasRef} width="700" height="700"></canvas>
     );
 };
