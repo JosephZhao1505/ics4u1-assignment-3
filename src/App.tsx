@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-// import { CubicEquation } from "./components/CubicEquation";
+import { CubicEquation } from "./components/CubicEquation";
 import { CubicGraph } from "./components/CubicGraph";
-// import { CubicHistory } from "./components/CubicHistory";
+import { CubicHistory } from "./components/CubicHistory";
 import { CubicInput } from "./components/CubicInput";
 import { CubicTable } from "./components/CubicTable";
 
@@ -11,6 +11,7 @@ export const App = () => {
   const [cValue, setC] = useState<number | string>('');
   const [dValue, setD] = useState<number | string>('');
   let [results, setResults] = useState({ r1: '', r2: '', r3: '', discriminant: '', pValue: '', qValue: '', roots: [] as number[] })
+  const [history, setHistory] = useState<{ a: number; b: number; c: number; d: number }[]>([]);
 
   const a = Number(aValue);
   const b = Number(bValue);
@@ -81,8 +82,10 @@ export const App = () => {
         newResults.r3 = `Root 3 = ${rootThree.toFixed(6)}`;
         newResults.roots.push(rootOne, rootTwo, rootThree)
       } else {
-        const u = Math.cbrt(-q / 2 + Math.sqrt(discriminant));
-        const v = Math.cbrt(-q / 2 - Math.sqrt(discriminant));
+
+        const limiter = Math.max(0, discriminant);
+        const u = Math.cbrt(-q / 2 + Math.sqrt(limiter));
+        const v = Math.cbrt(-q / 2 - Math.sqrt(limiter));
         const n = -((u + v) / 2);
         const m = (Math.sqrt(3) * (u - v)) / 2;
 
@@ -118,6 +121,12 @@ export const App = () => {
       <h5 className="text-base font-normal text-[#666] max-w-[600px] mb-5 text-center leading-tight">
         Welcome to a cubic solver, you will probably find many more that may or may not be much better than this one. Please waste your time here.
       </h5>
+      <CubicEquation
+        a={a}
+        b={b}
+        c={c}
+        d={d}
+      />
       <div className="flex flex-row items-start gap-8 bg-white p-[30px] rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.1)] w-fit mx-auto my-5">
         <div className="flex flex-col min-w-[250px]">
           <CubicInput
@@ -129,6 +138,7 @@ export const App = () => {
             setB={setB}
             setC={setC}
             setD={setD}
+            handleSave={() => setHistory([...history, { a, b, c, d }])}
           />
           <CubicTable
             r1={results.r1}
@@ -139,7 +149,20 @@ export const App = () => {
             qValue={results.qValue}
           />
         </div>
-        <CubicGraph a={a} b={b} c={c} d={d} roots={results.roots} />
+        <CubicGraph
+          a={a}
+          b={b}
+          c={c}
+          d={d}
+          roots={results.roots}
+        />
+        <CubicHistory
+          history={history}
+          setA={setA}
+          setB={setB}
+          setC={setC}
+          setD={setD}
+        />
       </div>
     </div>
   )
