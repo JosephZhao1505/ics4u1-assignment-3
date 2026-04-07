@@ -17,7 +17,6 @@ export const CubicHistory = ({ history, setA, setB, setC, setD }: HistoryProps) 
                         <th className="pb-2 text-sm font-bold text-gray-600 px-2">b</th>
                         <th className="pb-2 text-sm font-bold text-gray-600 px-2">c</th>
                         <th className="pb-2 text-sm font-bold text-gray-600 px-2">d</th>
-                        {/* text-sm font-bold mb-1 text-gray-600 */}
                     </tr>
                 </thead>
                 <tbody>
